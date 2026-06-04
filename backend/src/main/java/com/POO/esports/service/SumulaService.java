@@ -17,7 +17,6 @@ public class SumulaService {
             throw new IllegalArgumentException("Erro: A súmula deve obrigatoriamente estar vinculada a uma partida");
         }
 
-        // Garante que a súmula seja criada inicialmente como pendente
         novaSumula.setAprovadoJuiz(false);
 
         return sumulaRepository.save(novaSumula);
