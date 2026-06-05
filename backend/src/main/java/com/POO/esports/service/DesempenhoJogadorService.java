@@ -2,7 +2,7 @@ package com.POO.esports.service;
 
 import com.POO.esports.model.DesempenhoJogador;
 import com.POO.esports.model.DesempenhoJogadorId;
-import com.POO.esports.repository.desempenhoJogadorRepository;
+import com.POO.esports.repository.DesempenhoJogadorRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import java.util.Optional;
 public class DesempenhoJogadorService {
 
     @Autowired
-    private desempenhoJogadorRepository desempenhoRepository;
+    private DesempenhoJogadorRepository desempenhoRepository;
 
     public DesempenhoJogador registrarDesempenho(DesempenhoJogador desempenho) {
         if (desempenho.getIdJogador() == null || desempenho.getIdPartida() == null) {

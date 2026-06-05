@@ -4,6 +4,8 @@ import com.POO.esports.model.Campeonato;
 import com.POO.esports.repository.CampeonatoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @Service
@@ -16,7 +18,7 @@ public class CampeonatoService {
         if (novoCampeonato.getNome() == null || novoCampeonato.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("Erro: O campeonato precisa ter um nome válido");
         }
-        if (novoCampeonato.getPremiacao() != null && novoCampeonato.getPremiacao() < 0) {
+        if (novoCampeonato.getPremiacao() != null && novoCampeonato.getPremiacao().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Erro: A premiação não pode ser negativa");
         }
         if (novoCampeonato.getJogo() == null) {
@@ -26,12 +28,12 @@ public class CampeonatoService {
         return campeonatoRepository.save(novoCampeonato);
     }
 
-    public Campeonato atualizarPremiacao(Long idCamp, Double novaPremiacao) {
+    public Campeonato atualizarPremiacao(Long idCamp, BigDecimal novaPremiacao) {
         Optional<Campeonato> campeonatoEncontrado = campeonatoRepository.findById(idCamp);
 
         if (campeonatoEncontrado.isPresent()) {
             Campeonato campeonato = campeonatoEncontrado.get();
-            if (novaPremiacao < 0) {
+            if (novaPremiacao.compareTo(BigDecimal.ZERO) < 0) {
                 throw new IllegalArgumentException("Erro: A nova premiação não pode ser negativa");
             }
             campeonato.setPremiacao(novaPremiacao);

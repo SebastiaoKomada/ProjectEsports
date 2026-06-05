@@ -7,6 +7,6 @@ import com.POO.esports.model.DesempenhoJogador;
 import com.POO.esports.model.DesempenhoJogadorId;
 
 @Repository
-public interface desempenhoJogadorRepository extends JpaRepository<DesempenhoJogador, DesempenhoJogadorId> {
+public interface DesempenhoJogadorRepository extends JpaRepository<DesempenhoJogador, DesempenhoJogadorId> {
 
 }

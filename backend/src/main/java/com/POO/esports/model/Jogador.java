@@ -2,6 +2,8 @@ package com.POO.esports.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "jogador")
 public class Jogador {
@@ -18,7 +20,7 @@ public class Jogador {
     private Integer idadeJogador;
 
     @Column(precision = 10, scale = 2)
-    private Double salario;
+    private BigDecimal salario;
 
     @ManyToOne
     @JoinColumn(name = "id_time")
@@ -27,7 +29,7 @@ public class Jogador {
     public Jogador() {
     }
 
-    public Jogador(String nickname, Integer idadeJogador, Double salario, Time time) {
+    public Jogador(String nickname, Integer idadeJogador, BigDecimal salario, Time time) {
         this.nickname = nickname;
         this.idadeJogador = idadeJogador;
         this.salario = salario;
@@ -46,7 +48,7 @@ public class Jogador {
         return idadeJogador;
     }
 
-    public Double getSalario() {
+    public BigDecimal getSalario() {
         return salario;
     }
 
@@ -62,7 +64,7 @@ public class Jogador {
         this.idadeJogador = idadeJogador;
     }
 
-    public void setSalario(Double salario) {
+    public void setSalario(BigDecimal salario) {
         this.salario = salario;
     }
 
