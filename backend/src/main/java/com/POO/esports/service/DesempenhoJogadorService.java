@@ -4,6 +4,8 @@ import com.POO.esports.model.DesempenhoJogador;
 import com.POO.esports.model.DesempenhoJogadorId;
 import com.POO.esports.repository.DesempenhoJogadorRepository;
 
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
@@ -14,6 +16,10 @@ public class DesempenhoJogadorService {
     @Autowired
     private DesempenhoJogadorRepository desempenhoRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
+    @Transactional
     public DesempenhoJogador registrarDesempenho(DesempenhoJogador desempenho) {
         if (desempenho.getIdJogador() == null || desempenho.getIdPartida() == null) {
             throw new IllegalArgumentException("Erro: O desempenho deve estar vinculado a um jogador e a uma partida");
@@ -22,7 +28,13 @@ public class DesempenhoJogadorService {
             throw new IllegalArgumentException("Erro: As estatísticas de KDA não podem ser negativas");
         }
 
-        return desempenhoRepository.save(desempenho);
+        desempenhoRepository.save(desempenho);
+
+        // sem isso o hibernate devolve o objeto em cache e jogador/partida vem null
+        entityManager.flush();
+        entityManager.clear();
+
+        return buscarPorId(desempenho.getIdJogador(), desempenho.getIdPartida());
     }
 
     public DesempenhoJogador atualizarKDA(Integer idJogador, Integer idPartida, Integer kills, Integer deaths, Integer assists) {

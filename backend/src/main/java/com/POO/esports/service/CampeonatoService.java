@@ -1,7 +1,9 @@
 package com.POO.esports.service;
 
 import com.POO.esports.model.Campeonato;
+import com.POO.esports.model.Jogo;
 import com.POO.esports.repository.CampeonatoRepository;
+import com.POO.esports.repository.JogoRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,17 +15,23 @@ public class CampeonatoService {
 
     @Autowired
     private CampeonatoRepository campeonatoRepository;
+    @Autowired
+    private JogoRepository jogoRepository;
 
-    public Campeonato cadastrarCampeonato(Campeonato novoCampeonato) {
+    public Campeonato cadastrarCampeonato(Campeonato novoCampeonato, Integer jogoId) {
         if (novoCampeonato.getNome() == null || novoCampeonato.getNome().trim().isEmpty()) {
             throw new IllegalArgumentException("Erro: O campeonato precisa ter um nome válido");
         }
         if (novoCampeonato.getPremiacao() != null && novoCampeonato.getPremiacao().compareTo(BigDecimal.ZERO) < 0) {
             throw new IllegalArgumentException("Erro: A premiação não pode ser negativa");
         }
-        if (novoCampeonato.getJogo() == null) {
+        if (jogoId == null) {
             throw new IllegalArgumentException("Erro: O campeonato deve estar obrigatoriamente vinculado a um jogo");
         }
+
+        Jogo jogo = jogoRepository.findById(Long.valueOf(jogoId))
+                .orElseThrow(() -> new IllegalArgumentException("Erro: Jogo não encontrado"));
+        novoCampeonato.setJogo(jogo);
 
         return campeonatoRepository.save(novoCampeonato);
     }
