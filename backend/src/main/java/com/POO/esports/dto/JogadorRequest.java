@@ -1,9 +1,6 @@
 package com.POO.esports.dto;
 
 import com.POO.esports.model.Time;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 
 import java.math.BigDecimal;
 
@@ -11,7 +8,7 @@ public class JogadorRequest {
     private String nickname;
     private Integer idadeJogador;
     private BigDecimal salario;
-    private Time time;
+    private Integer timeId;
 
     public JogadorRequest(){
 
@@ -41,11 +38,11 @@ public class JogadorRequest {
         this.salario = salario;
     }
 
-    public Time getTime() {
-        return time;
+    public Integer getTimeId() {
+        return timeId;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTimeId(Integer timeId) {
+        this.timeId = timeId;
     }
 }

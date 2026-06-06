@@ -2,8 +2,9 @@ package com.POO.esports.service;
 
 import com.POO.esports.model.Jogador;
 import com.POO.esports.model.Time;
-import com.POO.esports.repository.JogadorRepository; 
+import com.POO.esports.repository.JogadorRepository;
 
+import com.POO.esports.repository.TimeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
@@ -13,14 +14,22 @@ public class JogadorService {
 
     @Autowired
     private JogadorRepository jogadorRepository;
+    @Autowired
+    private TimeRepository timeRepository;
 
-    public Jogador cadastrarJogador(Jogador novoJogador) {
+    public Jogador cadastrarJogador(Jogador novoJogador, Integer timeId) {
         if (novoJogador.getNickname() == null || novoJogador.getNickname().isEmpty()) {
             throw new IllegalArgumentException("Erro: O jogador precisa ter um nickname válido");
         }
 
         if (novoJogador.getIdadeJogador() != null && novoJogador.getIdadeJogador() < 16) {
             throw new IllegalArgumentException("Erro: O jogador deve ter pelo menos 16 anos para competir profissionalmente");
+        }
+
+        if (timeId != null) {
+            Time time = timeRepository.findById(Long.valueOf(timeId))
+                    .orElseThrow(() -> new IllegalArgumentException("Erro: Time não encontrado"));
+            novoJogador.setTime(time);
         }
 
         return jogadorRepository.save(novoJogador);

@@ -18,16 +18,14 @@ public class JogadorController {
     @Autowired
     private JogadorService service;
 
-    // isso aqui nao funciona porque eu deveria referenciar o time ao inves do modelo time
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Jogador> cadastrarJogador(@RequestBody JogadorRequest request){
         Jogador novoJogador = new Jogador();
         novoJogador.setNickname(request.getNickname());
         novoJogador.setIdadeJogador(request.getIdadeJogador());
         novoJogador.setSalario(request.getSalario());
-        novoJogador.setTime(request.getTime());
 
-        Jogador jogador = service.cadastrarJogador(novoJogador);
+        Jogador jogador = service.cadastrarJogador(novoJogador, request.getTimeId());
         return ResponseEntity.status(201).body(jogador);
     }
 
